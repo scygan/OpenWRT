@@ -186,6 +186,7 @@ ramips_setup_macs()
 		lan_mac=$(mtd_get_mac_binary devdata 16388)
 		;;
 
+	p6367 | \
 	w306r-v20)
 		lan_mac=$(mtd_get_mac_binary factory 4)
 		wan_mac=$(macaddr_add "$lan_mac" 5)

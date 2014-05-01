@@ -129,6 +129,9 @@ get_status_led() {
 	xdxrn502j)
 		status_led="xdxrn502j:green:power"
 		;;
+	p6367)
+ 		status_led="p6367:green:sys"
+		;;
 	esac
 }
 
