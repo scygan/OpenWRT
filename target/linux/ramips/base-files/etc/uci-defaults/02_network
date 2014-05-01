@@ -44,7 +44,8 @@ ramips_setup_interfaces()
 	awm002-evb | \
 	broadway | \
 	dcs-930| \
-	wnce2001)
+	wnce2001| \
+	p6367)
 		ucidef_add_switch "switch0" "1" "0"
 		ucidef_set_interface_lan "eth0"
 		;;

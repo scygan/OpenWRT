@@ -170,6 +170,9 @@ get_status_led() {
 	na930)
 		status_led="na930:blue:power"
 		;;
+	p6367)
+		status_led="pentagram:blue:ap"
+        ;;
 	esac
 }
 

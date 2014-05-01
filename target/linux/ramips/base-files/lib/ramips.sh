@@ -292,6 +292,9 @@ ramips_board_detect() {
 	*"Sercomm NA930")
 		name="na930"
 		;;
+	*"Pentagram Cerberus P6367")
+		name="p6367"
+        ;;
 	*)
 		name="generic"
 		;;

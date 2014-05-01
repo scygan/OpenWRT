@@ -538,6 +538,12 @@ Image/Build/Profile/X8=$(call BuildFirmware/Poray8M/$(1),$(1),x8,X8)
 
 Image/Build/Profile/XDXRN502J=$(call BuildFirmware/Default4M/$(1),$(1),xdxrn502j,XDXRN502J)
 
+define Image/Build/Profile/P6367
+	$(call BuildFirmware/CustomFlashFactory/$(1),$(1),p6367,P6367,$(ralink_default_fw_size_4M),3G150M_SPI Kernel Image,factory)
+	dd if=$(call imgname,$(1),p6367)-factory.bin of=$(call imgname,$(1),p6367)-factory.bin.64 bs=64K conv=sync
+	mv $(call imgname,$(1),p6367)-factory.bin.64 $(call imgname,$(1),p6367)-factory.bin
+endef
+
 ifeq ($(SUBTARGET),rt305x)
 define Image/Build/Profile/Default
 	$(call Image/Build/Profile/3G6200N,$(1))
@@ -609,6 +615,7 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/X5,$(1))
 	$(call Image/Build/Profile/X8,$(1))
 	$(call Image/Build/Profile/XDXRN502J,$(1))
+	$(call Image/Build/Profile/P6367,$(1))
 endef
 endif
 
