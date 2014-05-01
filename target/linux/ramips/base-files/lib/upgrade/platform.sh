@@ -56,6 +56,7 @@ platform_check_image() {
 	tew-691gr | \
 	tew-692gr | \
 	w306r-v20 |\
+	p6367 |\
 	w502u |\
 	wr6202 |\
 	v22rw-2x2 | \

@@ -210,6 +210,39 @@ define BuildFirmware/dap1350/squashfs
 	-mkdapimg -s $(4) \
 		-i $(call sysupname,$(1),$(2)) \
 		-o $(call imgname,$(1),$(2))-factory.bin
+
+define BuildFirmware/P6367
+	$(call BuildFirmware/p6367,$(1),$(2),$(call mkcmdline,$(3),$(4),$(5)) $(call mkmtd/$(6),$(mtdlayout_4M)),917504,2949120)
+endef
+	
+define BuildFirmware/p6367
+	$(call PatchKernelLzma,$(2),$(3))
+	mkimage -A mips -O linux -T kernel -C lzma $(call kernel_entry)\
+	 -n '3G150M_SPI Kernel Image' \
+	 -d $(KDIR)/vmlinux-$(2).bin.lzma $(KDIR)/vmlinux-$(2).uImage
+	$(call CatFiles,$(KDIR)/vmlinux-$(2).uImage,$(4),$(KDIR)/root.$(1),$(5),$(call imgname,$(1),$(2))-factory.bin.tmp)
+	dd if=$(call imgname,$(1),$(2))-factory.bin.tmp of=$(call imgname,$(1),$(2))-factory.bin bs=64K conv=sync
+	rm $(call imgname,$(1),$(2))-factory.bin.tmp
+endef
+
+define BuildFirmware/3G6200N
+	$(call BuildFirmware/EdimaxReal,$(1),$(2),$(call mkcmdline,$(3),$(4),$(5)) $(call mkmtd/$(6),$(mtdlayout_4M)),917504,2949120)
+endef
+
+define BuildFirmware/EdimaxReal
+	$(call PatchKernelLzma,$(2),$(3))
+	mkimage -A mips -O linux -T kernel -C lzma $(call kernel_entry)\
+	-n 'MIPS OpenWrt Linux-$(LINUX_VERSION)' \
+	-d $(KDIR)/vmlinux-$(2).bin.lzma $(KDIR)/vmlinux-$(2).uImage
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -w -b $(2) \
+	 -k $(KDIR)/vmlinux-$(2).uImage\
+	 -o $(call imgname,$(1),$(2)).tmp;
+	$(call CatFiles,$(call imgname,$(1),$(2)).tmp,$(4),$(KDIR)/root.$(1),$(5),$(call imgname,$(1),$(2))-factory.bin.tmp)
+	dd if=$(call imgname,$(1),$(2))-factory.bin.tmp of=$(call imgname,$(1),$(2))-factory.bin bs=64K conv=sync
+	rm $(call imgname,$(1),$(2))-factory.bin.tmp
+endef
+
+
 endef
 BuildFirmware/dap1350/initramfs=$(call BuildFirmware/OF/initramfs,$(1),$(2),$(3))
 
@@ -345,6 +378,15 @@ Image/Build/Profile/PWH2004=$(call BuildFirmware/Default8M/$(1),$(1),pwh2004,PWH
 
 Image/Build/Profile/RTG32B1=$(call BuildFirmware/Default4M/$(1),$(1),rt-g32-b1,RT-G32-B1)
 
+define Image/Build/Profile/P6367
+	$(call Image/Build/Template/$(fs_squash)/$(1),P6367,P6367,P6367,ttyS1,57600,spi)
+endef
+
+define Image/Build/Profile/3G6200N
+	$(call Image/Build/Template/$(fs_squash)/$(1),3G6200N,3G6200N,3G6200N,ttyS1,57600,phys)
+endef
+
+
 Image/Build/Profile/RTN10PLUS=$(call BuildFirmware/Default4M/$(1),$(1),rt-n10-plus,RT-N10-PLUS)
 
 Image/Build/Profile/SL-R7205=$(call BuildFirmware/Default4M/$(1),$(1),sl-r7205,SL-R7205)
@@ -453,6 +495,7 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/ESR-9753,$(1))
 	$(call Image/Build/Profile/F5D8235V2,$(1))
 	$(call Image/Build/Profile/FONERA20N,$(1))
+	$(call Image/Build/Profile/3G6200N,$(1))
 	$(call Image/Build/Profile/FREESTATION5,$(1))
 	$(call Image/Build/Profile/HW550-3G,$(1))
 	$(call Image/Build/Profile/MOFI3500-3GN,$(1))
@@ -470,6 +513,7 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/V22RW-2X2,$(1))
 	$(call Image/Build/Profile/W150M,$(1))
 	$(call Image/Build/Profile/W306R_V20,$(1))
+	$(call Image/Build/Profile/P6367,$(1))
 	$(call Image/Build/Profile/W502U,$(1))
 	$(call Image/Build/Profile/WCR150GN,$(1))
 	$(call Image/Build/Profile/WHRG300N,$(1))

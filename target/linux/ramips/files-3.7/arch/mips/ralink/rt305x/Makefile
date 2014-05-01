@@ -54,3 +54,6 @@ obj-$(CONFIG_RT305X_MACH_WL351)		+= mach-wl351.o
 obj-$(CONFIG_RT305X_MACH_WR6202)	+= mach-wr6202.o
 obj-$(CONFIG_RT305X_MACH_MZKW300NH2) 	+= mach-mzk-w300nh2.o
 obj-$(CONFIG_RT305X_MACH_XDX_RN502J)    += mach-xdx-rn502j.o
+obj-$(CONFIG_RT305X_MACH_P6367) 	+= mach-p6367.o
+
+

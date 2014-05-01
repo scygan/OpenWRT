@@ -211,6 +211,9 @@ ramips_board_detect() {
 	*"XDX RN502J")
 		name="xdxrn502j"
 		;;
+	*"Pentagram P6367")
+		name="p6367"
+		;;
 	*)
 		name="generic"
 		;;

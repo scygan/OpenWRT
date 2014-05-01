@@ -69,6 +69,7 @@ enum ramips_mach_type {
 	RAMIPS_MACH_XDXRN502J,          /* unknown XDX-RN502J */
 	RAMIPS_MACH_UR_326N4G,		/* UPVEL ROUTER */
 	RAMIPS_MACH_UR_336UN,		/* UPVEL ROUTER */
+	RAMIPS_MACH_P6367,          /* Pentagram P6367 */
 
 	/* RT3352 based machines */
 	RAMIPS_MACH_ALL5002,		/* Allnet ALL5002 */
