@@ -24,7 +24,7 @@ DEFAULT_PACKAGES += kmod-llc kmod-stp kmod-bridge kmod-8021q \
 
 define Target/Description
         Build firmware images for RDC321x based routers
-        (e.g. Airlink101 AR525W, Linksys WRT54GR, Sitecom WL-153)
+        (e.g. Airlink101 AR525W, Linksys WRT54GR, Sitecom WL-153, Edimax BR-6x15SRG and Edimax 3G-6200WG)
 endef
 
 $(eval $(call BuildTarget))

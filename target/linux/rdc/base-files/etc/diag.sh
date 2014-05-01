@@ -10,10 +10,10 @@ set_led() {
 set_state() {
 	case "$1" in
 		preinit)
-			set_led dmz 1
+			set_led power 1
 		;;
 		done)
-			set_led dmz 0
+			set_led power 0
 		;;
 	esac
 }

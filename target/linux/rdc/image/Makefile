@@ -32,11 +32,61 @@ define Image/Build/bifferboard
 	$(TOPDIR)/target/linux/rdc/image/mkimg_bifferboard.py $(KDIR)/bzImage $(KDIR)/root.$(1) $(BIN_DIR)/$(IMG_PREFIX)-$(1)-$(2).img
 endef
 
+define Image/Build/br6315srg
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -b BR-6315SRG \
+		-k $(KDIR)/bzImage\
+		$(call padFs/$(1))\
+		-o $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1)-$(2)-mtd.img
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -w -b BR-6315SRG \
+		-k $(KDIR)/bzImage\
+		$(call padFs/$(1))\
+		-o $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1)-$(2)-webui.img
+endef
+
+define padFs/jffs2-128k
+-a 0x20000 -f $(KDIR)/root.jffs2-128k
+endef
+
+define padFs/jffs2-64k
+-a 0x10000 -f $(KDIR)/root.jffs2-64k
+endef
+
+define padFs/squashfs
+-a 1024 -f $(KDIR)/root.squashfs
+endef
+
+define Image/Build/br6215srg
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -b BR-6215SRG \
+		-k $(KDIR)/bzImage\
+		$(call padFs/$(1))\
+		-o $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1)-$(2)-mtd.img
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -w -b BR-6215SRG \
+		-k $(KDIR)/bzImage\
+		$(call padFs/$(1))\
+		-o $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1)-$(2)-webui.img
+endef
+
+define Image/Build/3g6200wg
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -b 3G-6200WG \
+		-k $(KDIR)/bzImage\
+		$(call padFs/$(1))\
+		-o $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1)-$(2)-mtd.img
+	$(STAGING_DIR_HOST)/bin/mkedimaxrdc -w -b 3G-6200WG \
+		-k $(KDIR)/bzImage\
+		$(call padFs/$(1))\
+		-o $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1)-$(2)-webui.img
+endef
+
 define Image/Build/Initramfs
 	$(CP) $(KDIR)/bzImage $(BIN_DIR)/$(IMG_PREFIX)-ramfs.bzImage
 endef
 
+define Image/Build/squashfs
+	$(call prepare_generic_squashfs,$(KDIR)/root.squashfs)
+endef
+
 define Image/Build
+	$(call Image/Build/$(1))
 	$(CP) $(KDIR)/bzImage $(BIN_DIR)/$(IMG_PREFIX).bzImage
 	$(call Image/Build/$(PROFILE),$(1),$(PROFILE),$(patsubst jffs2-%k,%,$(1)))
 ifeq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),y)
